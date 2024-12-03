@@ -11,3 +11,5 @@ PERSONAL_ACCOUNT_URL = "https://stellarburgers.nomoreparties.site/account/profil
 LOGIN_URL = "https://stellarburgers.nomoreparties.site/login"
 SELECTED_SECTION_OF_CONSTRUCTOR = "tab_tab_type_current__2BEPc"
 REGISTRATION_GENERATED_EMAIL = f"nacharkin{random.randint(100, 999)}@gmail.com"
+UNCORRECT_EMAIL = "nacharkin_9916"
+REGISTRATION_LOGIN_ERROR_MESSAGE = "Такой пользователь уже существует"

@@ -7,7 +7,7 @@ from locators import *
 
 class TestRegistrationPage:
 
-    def test_registration_name_len(self,chrome_driver):
+    def test_registration_succesfull(self,chrome_driver): #я не понял, в какой момент нужно тестировать пустое поле, в момент регистрации или же после регистрации. Оставил вариант после регистрации, потому что ошибка идентична тесту домена в поле email (следующий тест в классе)
         driver = chrome_driver
         driver.get(BASE_URL)
         WebDriverWait(driver, 10).until(EC.visibility_of_element_located(PERSONAL_ACCOUNT))
@@ -32,11 +32,19 @@ class TestRegistrationPage:
         length_value = driver.find_element(*REGISTRATION_NAME).get_dom_attribute('disabled value')
         assert length_value != 0
 
-    def test_email_field_contains_login_and_domen(self,open_personal_account):
-        driver = open_personal_account
-        WebDriverWait(driver, 10).until(EC.visibility_of_element_located(LOGIN_FIELD_EMAIL_VALUE))
-        email_value = driver.find_element(*LOGIN_FIELD_EMAIL_VALUE).get_dom_attribute('value')
-        assert '@gmail.com' in email_value
+    def test_email_field_contains_domen(self,chrome_driver):
+        driver = chrome_driver
+        driver.get(BASE_URL)
+        WebDriverWait(driver, 10).until(EC.visibility_of_element_located(PERSONAL_ACCOUNT))
+        driver.find_element(*PERSONAL_ACCOUNT).click()
+        driver.find_element(*REGISTRATION_BUTTON).click()
+        driver.find_element(*REGISTRATION_NAME).send_keys(USER_NAME)
+        driver.find_element(*REGISTRATION_EMAIL).send_keys(UNCORRECT_EMAIL)
+        driver.find_element(*REGISTRATION_PASSWORD).send_keys(USER_PASSWORD)
+        driver.find_element(*REGISTRATION_ACCEPT_BUTTON).click()
+        WebDriverWait(driver, 10).until(EC.visibility_of_element_located(MESSAGE_USER_ALREADY_EXISTS))
+        login_error_message = driver.find_element(*MESSAGE_USER_ALREADY_EXISTS).text
+        assert login_error_message == REGISTRATION_LOGIN_ERROR_MESSAGE
 
     def test_uncorrect_len_password(self,chrome_driver):
         driver = chrome_driver

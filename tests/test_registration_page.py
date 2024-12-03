@@ -1,23 +1,33 @@
+import time
+
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from constants import *
 from locators import *
 
 class TestRegistrationPage:
-    def test_registration_uncorrect_len_password(self,chrome_driver):
+
+    def test_registration_name_len(self,chrome_driver):
         driver = chrome_driver
         driver.get(BASE_URL)
         WebDriverWait(driver, 10).until(EC.visibility_of_element_located(PERSONAL_ACCOUNT))
         driver.find_element(*PERSONAL_ACCOUNT).click()
         driver.find_element(*REGISTRATION_BUTTON).click()
         driver.find_element(*REGISTRATION_NAME).send_keys(USER_NAME)
-        driver.find_element(*REGISTRATION_EMAIL).send_keys(USER_EMAIL)
-        driver.find_element(*REGISTRATION_PASSWORD).send_keys(UNCORRECT_LEN_PASSWORD_REGISTRATION)
+        email = REGISTRATION_GENERATED_EMAIL
+        driver.find_element(*REGISTRATION_EMAIL).send_keys(email)
+        driver.find_element(*REGISTRATION_PASSWORD).send_keys(USER_PASSWORD)
         driver.find_element(*REGISTRATION_ACCEPT_BUTTON).click()
-        assert driver.find_element(*REGISTRATION_UNCORRECT_PASSWORD).text == REGISTRATION_UNCORRECT_PASSWORD_MESSAGE
-
-    def test_registration_name_len(self,open_personal_account):
-        driver = open_personal_account
+        WebDriverWait(driver, 10).until(EC.visibility_of_element_located(PERSONAL_ACCOUNT))
+        driver.find_element(*PERSONAL_ACCOUNT).click()
+        driver.find_element(*EMAIL_INPUT).click()
+        driver.find_element(*EMAIL_INPUT).send_keys(email)
+        driver.find_element(*PASSWORD_INPUT).click()
+        driver.find_element(*PASSWORD_INPUT).send_keys(USER_PASSWORD)
+        WebDriverWait(driver, 10).until(EC.visibility_of_element_located(ACCEPT_LOGIN_BUTTON))
+        driver.find_element(*ACCEPT_LOGIN_BUTTON).click()
+        WebDriverWait(driver, 10).until(EC.visibility_of_element_located(PERSONAL_ACCOUNT))
+        driver.find_element(*PERSONAL_ACCOUNT).click()
         WebDriverWait(driver, 10).until(EC.visibility_of_element_located(REGISTRATION_NAME))
         length_value = driver.find_element(*REGISTRATION_NAME).get_dom_attribute('disabled value')
         assert length_value != 0
@@ -28,7 +38,14 @@ class TestRegistrationPage:
         email_value = driver.find_element(*LOGIN_FIELD_EMAIL_VALUE).get_dom_attribute('value')
         assert '@gmail.com' in email_value
 
-
-
-
-
+    def test_uncorrect_len_password(self,chrome_driver):
+        driver = chrome_driver
+        driver.get(BASE_URL)
+        WebDriverWait(driver, 10).until(EC.visibility_of_element_located(PERSONAL_ACCOUNT))
+        driver.find_element(*PERSONAL_ACCOUNT).click()
+        driver.find_element(*REGISTRATION_BUTTON).click()
+        driver.find_element(*REGISTRATION_NAME).send_keys(USER_NAME)
+        driver.find_element(*REGISTRATION_EMAIL).send_keys(REGISTRATION_GENERATED_EMAIL)
+        driver.find_element(*REGISTRATION_PASSWORD).send_keys(UNCORRECT_LEN_PASSWORD_REGISTRATION)
+        driver.find_element(*REGISTRATION_ACCEPT_BUTTON).click()
+        assert driver.find_element(*REGISTRATION_UNCORRECT_PASSWORD).text == REGISTRATION_UNCORRECT_PASSWORD_MESSAGE

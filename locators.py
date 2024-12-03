@@ -24,3 +24,4 @@ BUN_SECTION = (By.XPATH,".//span[contains(text(),'Булки')]/parent::div") # 
 SAUCE_SECTION = (By.XPATH, ".//span[contains(text(),'Соусы')]/parent::div") # Кнопка "Соусы" в конструкторе бургера
 FILLINGS_SECTION = (By.XPATH, ".//span[contains(text(),'Начинки')]/parent::div") # Кнопка "Начинки" в конструкторе бургера
 LOGIN_FIELD_EMAIL_VALUE = (By.XPATH, ".//label[contains(text(),'Логин')]/following-sibling::input") # Кнопка для проверки логина (email)
+MODAL = (By.CSS_SELECTOR, "div[class*=Modal_modal]")

@@ -9,4 +9,4 @@ class TestPersonalAccount:
         driver = open_personal_account
         WebDriverWait(driver, 10).until(EC.visibility_of_element_located(EDIT_PROFILE_BUTTON))
         driver.find_element(*EDIT_PROFILE_BUTTON).click()
-        assert driver.current_url == PERSONAL_ACCOUNT_URL
+        assert driver.current_url == URLs.PERSONAL_ACCOUNT_URL

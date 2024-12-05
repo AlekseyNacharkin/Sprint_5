@@ -10,7 +10,7 @@ from locators import *
 @pytest.fixture()
 def mozila_driver():
     driver = webdriver.Firefox()
-    driver.get(BASE_URL)
+    driver.get(URLs.BASE_URL)
     yield driver
     driver.quit()
 
@@ -18,7 +18,7 @@ def mozila_driver():
 @pytest.fixture()
 def chrome_driver():
     driver = webdriver.Chrome()
-    driver.get(BASE_URL)
+    driver.get(URLs.BASE_URL)
     yield driver
     driver.quit()
 
@@ -27,18 +27,15 @@ def chrome_driver():
 def authorization(chrome_driver):
     driver = chrome_driver
     driver.find_element(*LOGIN_BUTTON).click()
-    driver.find_element(*EMAIL_INPUT).send_keys(USER_EMAIL)
-    driver.find_element(*PASSWORD_INPUT).send_keys(USER_PASSWORD)
+    driver.find_element(*EMAIL_INPUT).send_keys(UserValue.USER_EMAIL)
+    driver.find_element(*PASSWORD_INPUT).send_keys(UserValue.USER_PASSWORD)
     driver.find_element(*ACCEPT_LOGIN_BUTTON).click()
-    yield driver
-    driver.quit()
+    return driver
 
 @pytest.fixture()
 def open_personal_account(authorization):
     driver = authorization
     WebDriverWait(driver, 10).until(EC.visibility_of_element_located(PERSONAL_ACCOUNT))
     driver.find_element(*PERSONAL_ACCOUNT).click()
-    yield driver
-    driver.quit()
-
+    return driver
 

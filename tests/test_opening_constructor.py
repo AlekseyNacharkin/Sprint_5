@@ -1,6 +1,6 @@
 from locators import *
 
-class TestOpeningConstrictor:
+class TestOpeningConstructor:
     def test_opening_constructor_click_on_logo(self,open_personal_account):
         driver = open_personal_account
         current_url = driver.current_url
